@@ -1,6 +1,6 @@
 */enabled/*
 .DS_Store
-custom/*
+custom/*secret.bash
 !custom/example.bash
 .rvmrc
 aliases/custom.aliases.bash
