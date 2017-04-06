@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+import os
+import sys
+import click
+
+from slacker import Slacker
+
+
+@click.command()
+@click.option('--channel', default='#self', show_default=True,
+              help='channel to send message')
+def note_to_self(channel):
+    """Send stdin as a message to a slack channel. SLACK_TOKEN must be set
+    as an environment variable.
+
+    """
+    message = click.get_text_stream('stdin')
+
+    token = os.getenv('SLACK_TOKEN')
+    if not token:
+        print >> sys.stderr, 'no $SLACK_TOKEN set'
+        sys.exit(0)
+
+    slack = Slacker(token)
+
+    # Send a message to #general channel
+    slack.chat.post_message(channel, message, username='command line',
+                            icon_emoji=':computer:')
+
+if __name__ == '__main__':
+
+    note_to_self()
